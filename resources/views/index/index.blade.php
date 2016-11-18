@@ -8,7 +8,7 @@
 
 @section('body')
     <div id="app">
-        <example></example>
+        <todo-list></todo-list>
     </div>
 @endsection
 
