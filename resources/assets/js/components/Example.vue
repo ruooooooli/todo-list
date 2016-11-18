@@ -3,10 +3,9 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Example Component</div>
-
+                    <div class="panel-heading">任务清单</div>
                     <div class="panel-body">
-                        I'm an example component!
+                        任务清单准备完毕!
                     </div>
                 </div>
             </div>
@@ -16,8 +15,12 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component ready.')
-        }
+
     }
 </script>
+
+<style media="screen">
+    .panel-default {
+        margin-top: 5%;
+    }
+</style>
