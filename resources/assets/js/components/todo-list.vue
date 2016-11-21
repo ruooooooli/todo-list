@@ -33,20 +33,15 @@
                                 <template v-else>
                                     <tr>
                                         <td colspan="2">
-                                            请添加任务!
+
                                         </td>
                                     </tr>
                                 </template>
-                                <tr>
-                                    <td>
-                                        <input type="text" v-model="newTodo" class="form-control">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-sm" v-on:click="createTodo">添加</button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="text" v-model="newTodo" v-on:keyup.enter="createTodo" class="form-control" placeholder="请输入任务 回车添加">
                     </div>
                 </div>
             </div>
@@ -55,7 +50,17 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
+        mounted : function () {
+            let that = this;
+            axios.get('http://code.app/todo')
+                .then(function (response) {
+                    let data    = response.data.data;
+                    that.todos  = data.todos;
+                });
+        },
         data : function () {
             return {
                 newTodo : '',
@@ -64,16 +69,35 @@
         },
         methods: {
             deleteTodo : function (index) {
-                this.todos.splice(index, 1);
+                let that = this;
+
+                axios.post('http://code.app/todo/' + id, {
+                    '_method' : 'DELETE',
+                })
+                .then(function (response) {
+                    if (response.data.code === 'success') {
+                        that.todos.splice(index, 1);
+                    }
+                });
             },
             createTodo : function () {
-                if (this.newTodo === '') {
+                let that = this;
+                if (that.newTodo === '') {
                     alert('请输入任务内容!');
                     return false;
                 }
 
-                this.todos.push({ 'name' : this.newTodo});
-                this.newTodo = '';
+                axios.post('http://code.app/todo', {
+                    'name' : that.newTodo,
+                })
+                .then(function (response) {
+                    if (response.data.code === 'success') {
+                        that.todos.push({ 'name' : that.newTodo});
+                        that.newTodo = '';
+                    } else {
+                        alert(response.message);
+                    }
+                });
             },
         },
     }
