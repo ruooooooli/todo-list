@@ -41,7 +41,7 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <input type="text" v-model="newTodo" v-on:keyup.enter="createTodo" class="form-control" placeholder="请输入任务 回车添加">
+                        <input type="text" v-model="newTodo" @keyup.enter="createTodo" class="form-control" placeholder="请输入任务 回车添加">
                     </div>
                 </div>
             </div>
